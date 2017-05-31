@@ -2,12 +2,14 @@
 # C Synchronous Interface
 ######################################################################################
 
-set(THREADS_USE_PTHREADS_WIN32 true)
 find_package(Threads REQUIRED)
-include_directories(${THREADS_PTHREADS_INCLUDE_DIR})
 
-add_library (freenect_sync SHARED libfreenect_sync.c)
-add_library (freenect_sync_static STATIC libfreenect_sync.c)
+list(APPEND CompileFeatures "cxx_alias_templates" "cxx_auto_type" "cxx_nullptr")
+
+add_library(freenect_sync        SHARED libfreenect_sync.cpp)
+add_library(freenect_sync_static STATIC libfreenect_sync.cpp)
+target_compile_features(freenect_sync        PRIVATE ${CompileFeatures})
+target_compile_features(freenect_sync_static PRIVATE ${CompileFeatures})
 set_target_properties (freenect_sync_static PROPERTIES OUTPUT_NAME freenect_sync)
 
 set_target_properties (freenect_sync PROPERTIES
